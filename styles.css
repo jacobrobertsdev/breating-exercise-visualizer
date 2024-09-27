@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    background-color: #f9f9f9;
+
+}
+
+
+.shape {
+    background-color: lightseagreen;
+    transition: width 1s ease-in, height 1s ease-in, background-color .4s ease;
+    margin: 5rem auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Center the element */
+
+}
+
+.small {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 9999px;
+}
+
+.large {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 9999px;
+}
