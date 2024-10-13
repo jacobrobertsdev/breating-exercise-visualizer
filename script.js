@@ -1,9 +1,6 @@
-let inhaleTimer = document.querySelector('.inhale');
-let holdTimer = document.querySelector('.hold');
-let exhaleTimer = document.querySelector('.exhale');
+let display = document.querySelector('.cycle-display');
 let shape = document.querySelector('.shape');
-let startButton = document.querySelector('.start');
-let stopButton = document.querySelector('.stop');
+let digit = document.querySelector('.digit');
 
 const inhale = 4; // seconds for inhale
 const hold = 7;   // seconds for hold
@@ -25,27 +22,30 @@ function startCycle() {
 
 function stopCycle() {
     if (isBreathing) {
+        shape.classList.replace('large', 'small');
         clearInterval(inhaleCounter);
         clearInterval(holdCounter);
         clearInterval(exhaleCounter);
         isBreathing = false;
         seconds = 0;
-        inhaleTimer.textContent = 'Inhale: ' + seconds;
-        holdTimer.textContent = 'Hold: ' + seconds;
-        exhaleTimer.textContent = 'Exhale: ' + seconds;
-        shape.classList.replace('large', 'small');
+        display.textContent = 'Click the circle to start and stop.';
+        digit.textContent = '';
+
+        shape.style.backgroundColor = `lightseagreen`;
 
     }
 }
 
 
 function inhaleStart() {
-    shape.style.transition = `width ${inhale}s ease-in, height ${inhale}s ease-in, background-color .4s ease`;
-    shape.classList.replace('small', 'large');
 
+    shape.style.transition = `width ${inhale}s ease-in-out, height ${inhale}s ease-in-out, background-color .4s ease`;
     inhaleCounter = setInterval(() => {
+
+        shape.classList.replace('small', 'large');
         seconds++;
-        inhaleTimer.textContent = 'Inhale: ' + seconds;
+        display.textContent = 'Inhale';
+        digit.textContent = seconds;
 
         if (seconds >= inhale) {
             clearInterval(inhaleCounter);
@@ -57,11 +57,12 @@ function inhaleStart() {
 
 
 function holdStart() {
-    shape.style.backgroundColor = `purple`;
-    holdCounter = setInterval(() => {
-        seconds++;
-        holdTimer.textContent = 'Hold: ' + seconds;
 
+    holdCounter = setInterval(() => {
+        shape.style.backgroundColor = `purple`;
+        seconds++;
+        display.textContent = 'Hold';
+        digit.textContent = seconds;
         if (seconds >= hold) {
             clearInterval(holdCounter);
             seconds = 0;
@@ -72,13 +73,16 @@ function holdStart() {
 
 
 function exhaleStart() {
-    shape.style.backgroundColor = `lightseagreen`;
-    shape.style.transition = `width ${exhale}s ease-in, height ${exhale}s ease-in, background-color .4s ease`;
-    shape.classList.replace('large', 'small');
+
+    shape.style.transition = `width ${exhale}s ease-in-out, height ${exhale}s ease-in-out, background-color .4s ease`;
 
     exhaleCounter = setInterval(() => {
+
+        shape.classList.replace('large', 'small');
+        shape.style.backgroundColor = `lightseagreen`;
         seconds++;
-        exhaleTimer.textContent = 'Exhale: ' + seconds;
+        display.textContent = 'Exhale';
+        digit.textContent = seconds;
         if (seconds >= exhale) {
             clearInterval(exhaleCounter);
             seconds = 0;
@@ -89,5 +93,6 @@ function exhaleStart() {
 
 
 
-startButton.addEventListener('click', startCycle);
-stopButton.addEventListener('click', stopCycle);
+shape.addEventListener('click', () => {
+    isBreathing ? stopCycle() : startCycle()
+});
