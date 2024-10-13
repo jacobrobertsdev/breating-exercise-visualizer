@@ -6,17 +6,32 @@ const inhale = 4; // seconds for inhale
 const hold = 7;   // seconds for hold
 const exhale = 8; // seconds for exhale
 let isBreathing = false; // State to track if the exercise is active
-let seconds = 0; // Timer
+let seconds; // Timer
+let countdown = 3;
 let inhaleCounter, holdCounter, exhaleCounter; // Store interval IDs
 
 
 function startCycle() {
-    if (!isBreathing) {
-        inhaleStart();
-        isBreathing = true;
 
+    if (!isBreathing) {
+
+        isBreathing = true;
+        countdown = 3; // Reset countdown to 3 seconds
+
+        display.textContent = `Starting in ${countdown}...`;
+
+        const countdownInterval = setInterval(() => {
+            countdown--;
+
+            if (countdown <= 0) {
+                clearInterval(countdownInterval); // Clear the countdown
+                inhaleStart(); // Start the breathing cycle
+            } else {
+                display.textContent = `Starting in ${countdown}...`;
+            }
+        }, 1000);
     }
-};
+}
 
 function stopCycle() {
     if (isBreathing) {
@@ -36,19 +51,20 @@ function stopCycle() {
 
 
 function inhaleStart() {
-
+    seconds = 1;
     shape.style.transition = `width ${inhale}s ease-in-out, height ${inhale}s ease-in-out, background-color .4s ease`;
+    display.textContent = 'Inhale for 4 seconds';
+    shape.classList.replace('small', 'large');
+    digit.textContent = seconds;
 
     inhaleCounter = setInterval(() => {
 
-        display.textContent = 'Inhale';
-        shape.classList.replace('small', 'large');
+
         seconds++;
         digit.textContent = seconds;
 
         if (seconds >= inhale) {
             clearInterval(inhaleCounter);
-            seconds = 0;
             holdStart();
         }
     }, 1000);
@@ -56,17 +72,16 @@ function inhaleStart() {
 
 
 function holdStart() {
-
+    seconds = 0;
     holdCounter = setInterval(() => {
 
-        display.textContent = 'Hold';
+        display.textContent = 'Hold for 7 seconds';
         shape.style.backgroundColor = `purple`;
         seconds++;
         digit.textContent = seconds;
 
         if (seconds >= hold) {
             clearInterval(holdCounter);
-            seconds = 0;
             exhaleStart();
         }
     }, 1000);
@@ -75,19 +90,19 @@ function holdStart() {
 
 function exhaleStart() {
 
+    seconds = 0;
     shape.style.transition = `width ${exhale}s ease-in-out, height ${exhale}s ease-in-out, background-color .4s ease`;
 
     exhaleCounter = setInterval(() => {
 
-        display.textContent = 'Exhale';
+        display.textContent = 'Exhale for 8 seconds';
         shape.classList.replace('large', 'small');
         shape.style.backgroundColor = `lightseagreen`;
         seconds++;
         digit.textContent = seconds;
 
-        if (seconds >= exhale) {
+        if (seconds > exhale) {
             clearInterval(exhaleCounter);
-            seconds = 0;
             inhaleStart();
         }
     }, 1000);
