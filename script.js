@@ -6,10 +6,8 @@ const inhale = 4; // seconds for inhale
 const hold = 7;   // seconds for hold
 const exhale = 8; // seconds for exhale
 let isBreathing = false; // State to track if the exercise is active
-let seconds = 0; // Timer counter
+let seconds = 0; // Timer
 let inhaleCounter, holdCounter, exhaleCounter; // Store interval IDs
-
-
 
 
 function startCycle() {
@@ -18,7 +16,7 @@ function startCycle() {
         isBreathing = true;
 
     }
-}
+};
 
 function stopCycle() {
     if (isBreathing) {
@@ -28,23 +26,24 @@ function stopCycle() {
         clearInterval(exhaleCounter);
         isBreathing = false;
         seconds = 0;
-        display.textContent = 'Click the circle to start and stop.';
+        display.textContent = 'Click the circle or press any key to start / stop.';
         digit.textContent = '';
 
         shape.style.backgroundColor = `lightseagreen`;
 
     }
-}
+};
 
 
 function inhaleStart() {
 
     shape.style.transition = `width ${inhale}s ease-in-out, height ${inhale}s ease-in-out, background-color .4s ease`;
+
     inhaleCounter = setInterval(() => {
 
+        display.textContent = 'Inhale';
         shape.classList.replace('small', 'large');
         seconds++;
-        display.textContent = 'Inhale';
         digit.textContent = seconds;
 
         if (seconds >= inhale) {
@@ -53,23 +52,25 @@ function inhaleStart() {
             holdStart();
         }
     }, 1000);
-}
+};
 
 
 function holdStart() {
 
     holdCounter = setInterval(() => {
+
+        display.textContent = 'Hold';
         shape.style.backgroundColor = `purple`;
         seconds++;
-        display.textContent = 'Hold';
         digit.textContent = seconds;
+
         if (seconds >= hold) {
             clearInterval(holdCounter);
             seconds = 0;
             exhaleStart();
         }
     }, 1000);
-}
+};
 
 
 function exhaleStart() {
@@ -78,20 +79,24 @@ function exhaleStart() {
 
     exhaleCounter = setInterval(() => {
 
+        display.textContent = 'Exhale';
         shape.classList.replace('large', 'small');
         shape.style.backgroundColor = `lightseagreen`;
         seconds++;
-        display.textContent = 'Exhale';
         digit.textContent = seconds;
+
         if (seconds >= exhale) {
             clearInterval(exhaleCounter);
             seconds = 0;
             inhaleStart();
         }
     }, 1000);
-}
+};
 
 
+window.addEventListener('keyup', () => {
+    isBreathing ? stopCycle() : startCycle()
+});
 
 shape.addEventListener('click', () => {
     isBreathing ? stopCycle() : startCycle()
