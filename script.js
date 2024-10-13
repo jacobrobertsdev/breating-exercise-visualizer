@@ -17,7 +17,6 @@ function startCycle() {
     if (!isBreathing) {
         isBreathing = true;
         countdown = 3; // Ensure countdown set to 3 seconds at each start
-
         display.textContent = `Starting in ${countdown}...`;
 
         const countdownInterval = setInterval(() => {
@@ -55,7 +54,7 @@ function stopCycle() {
 // Inhale
 function inhaleStart() {
     seconds = 1;
-    shape.style.transition = `width ${inhale}s ease-in-out, height ${inhale}s ease-in-out, background-color .4s ease`;
+    shape.style.transition = `width ${inhale}s ease-in-out, height ${inhale}s ease-in-out, background-color .2s ease`;
     display.textContent = 'Inhale for 4 seconds';
     shape.classList.replace('small', 'large');
     digit.textContent = seconds;
@@ -91,12 +90,12 @@ function holdStart() {
 // Exhale
 function exhaleStart() {
     seconds = 0;
-    shape.style.transition = `width ${exhale}s ease-in-out, height ${exhale}s ease-in-out, background-color .4s ease`;
+    shape.style.transition = `width ${exhale}s ease-in-out, height ${exhale}s ease-in-out, background-color .2s ease`;
 
     exhaleCounter = setInterval(() => {
         display.textContent = 'Exhale for 8 seconds';
-        shape.classList.replace('large', 'small');
         shape.style.backgroundColor = `lightseagreen`;
+        shape.classList.replace('large', 'small');
         seconds++;
         digit.textContent = seconds;
 
